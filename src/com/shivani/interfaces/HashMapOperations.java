@@ -1,10 +1,10 @@
 package com.shivani.interfaces;
 
-public interface HashMapOperations<Key,Value> {
+public interface HashMapOperations<K,V> {
 	public int size();
 	public boolean isEmpty();
-	public boolean contains(Key key);
-	public Value get(Key key);
-	public void put(Key key, Value val);
-	public void delete(Key key);
+	public boolean contains(K key);
+	public V get(K key);
+	public void put(K key, V val);
+	public void delete(K key);
 }

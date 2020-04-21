@@ -3,17 +3,17 @@ package com.shivani.datastructure;
 import java.util.LinkedList;
 import java.util.Queue;
 
-public class SequentialSearchST<Key, Value> {
+public class SequentialSearchST<K, V> {
     private int keyValuePairs;           // number of key-value pairs
     private Node first;      // the linked list of key-value pairs
 
     // a helper linked list data type
     private class Node {
-        private Key key;
-        private Value value;
+        private K key;
+        private V value;
         private Node next;
 
-        public Node(Key key, Value val, Node next)  {
+        public Node(K key, V val, Node next)  {
             this.key  = key;
             this.value  = val;
             this.next = next;
@@ -34,12 +34,12 @@ public class SequentialSearchST<Key, Value> {
         return size() == 0;
     }
 
-    public boolean contains(Key key) {
+    public boolean contains(K key) {
         if (key == null) throw new IllegalArgumentException("argument to contains() is null");
         return get(key) != null;
     }
 
-    public Value get(Key key) {
+    public V get(K key) {
         if (key == null) throw new IllegalArgumentException("argument to get() is null"); 
         for (Node x = first; x != null; x = x.next) {
             if (key.equals(x.key))
@@ -48,7 +48,7 @@ public class SequentialSearchST<Key, Value> {
         return null;
     }
 
-    public void put(Key key, Value value) {
+    public void put(K key, V value) {
         if (key == null) throw new IllegalArgumentException("first argument to put() is null"); 
         if (value == null) {
             delete(key);
@@ -65,12 +65,12 @@ public class SequentialSearchST<Key, Value> {
         keyValuePairs++;
     }
 
-    public void delete(Key key) {
+    public void delete(K key) {
         if (key == null) throw new IllegalArgumentException("argument to delete() is null"); 
         first = delete(first, key);
     }
 
-    private Node delete(Node x, Key key) {
+    private Node delete(Node x, K key) {
         if (x == null) return null;
         if (key.equals(x.key)) {
             keyValuePairs--;
@@ -81,8 +81,8 @@ public class SequentialSearchST<Key, Value> {
     }
 
     
-    public Iterable<Key> keys()  {
-    	Queue<Key> queue = new LinkedList<>();
+    public Iterable<K> keys()  {
+    	Queue<K> queue = new LinkedList<>();
         for (Node x = first; x != null; x = x.next)
             queue.add(x.key);
         return queue;

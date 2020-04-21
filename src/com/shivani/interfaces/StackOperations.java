@@ -1,12 +1,10 @@
 package com.shivani.interfaces;
 
-public interface StackOperations {
+public interface StackOperations<E> {
 	public boolean isStackEmpty();
 	public boolean isStackFull();
-	public void pushItem(Object obj);
-	public Object popItem();
-	public void increaseStackCapacity();
-	public Object peek();
-	public void displayStack();
+	public void pushItem(E element);
+	public E popItem();
+	public E peek();
 	
 }

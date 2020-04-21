@@ -1,19 +1,17 @@
 package com.shivani.datastructure;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import com.shivani.exceptions.StackException;
 import com.shivani.interfaces.StackOperations;
 
-public class Stack implements StackOperations {
-	private final Logger logger = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
+public class Stack<E> implements StackOperations<E> {
 	private int topElement;   
     private int stackSize;  
-    private Object[] stackArr;  
+    private E[] stackArr;  
+	@SuppressWarnings("unchecked")
 	Stack(int size) {
 		stackSize = size;
 		topElement = -1;
-		stackArr = new Object[stackSize];
+		stackArr = (E[])new Object[stackSize];
 	}
 	public boolean isStackEmpty() { 
         return (topElement == -1); 
@@ -21,18 +19,16 @@ public class Stack implements StackOperations {
 	public boolean isStackFull() {
 		return (topElement == stackSize - 1);
 	}
-	public void pushItem(Object obj) {
+	public void pushItem(E element) {
 		if(topElement == stackSize-1) {
-		    logger.log(Level.INFO, "size is increasing");
 		    increaseStackCapacity();
 			
 		}
 		else {
-            stackArr[topElement++]= obj;  
-            logger.log(Level.INFO, "element pushed successfully" + obj);
-		}
+            stackArr[topElement++]= element;  
+        }
 	}
-	public Object popItem() {
+	public E popItem() {
 		 if (topElement < 0) { 
 			throw new StackException("Stack is Unerflow");
 	     } 
@@ -42,14 +38,15 @@ public class Stack implements StackOperations {
 	}
 	public void increaseStackCapacity(){
         
-        Object[] newStack = new Object[stackSize*2];
+        @SuppressWarnings("unchecked")
+		E[] newStack = (E[])new Object[stackSize*2];
         for(int i=0;i<stackSize;i++){
             newStack[i] = stackArr[i];
         }
         stackArr = newStack;
         stackSize = stackSize*2;
     }
-	public Object peek() {
+	public E peek() {
 		if (topElement < 0) { 
 			throw new StackException("Stack is UnderFlow");
         } 
@@ -57,10 +54,14 @@ public class Stack implements StackOperations {
             return stackArr[topElement]; 
         } 
 	}
-	public void displayStack() {
-		for(Object each: stackArr) {
-            logger.log(Level.INFO, "element pushed successfully" + each);
-    		
-		}
-	}
+
+	
+	public String toString() {	
+    	StringBuilder builder = new StringBuilder();
+    	  for (int i = 0; i < stackArr.length; ++i) {
+    	    builder.append(stackArr[i]);
+    	  }
+    	  return builder.toString();
+    	
+    }
 }

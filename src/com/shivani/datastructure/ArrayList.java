@@ -4,20 +4,19 @@ import java.util.Arrays;
 import com.shivani.exceptions.ArrayListException;
 import com.shivani.interfaces.ArrayListOperations;
 
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
-public class ArrayList implements ArrayListOperations {
-	private final Logger logger = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
+public class ArrayList<E> implements ArrayListOperations<E> {
 		 
-    private Object[] elementsStore;
+    private E[] elementsStore;
     private int originalSize = 0;
      
-    public ArrayList(){
-        elementsStore = new Object[10];
+    @SuppressWarnings("unchecked")
+	public ArrayList(){
+        elementsStore = (E[])new Object[10];
+      
     }
      
-    public Object getElement(int index){
+    public E getElement(int index){
         if(index < originalSize){
             return elementsStore[index];
         } else {
@@ -25,25 +24,25 @@ public class ArrayList implements ArrayListOperations {
         }
     }
      
-    public void addElement(Object obj){
+    public void addElement(E element){
         if(elementsStore.length-originalSize <= 5){
             increaseListSize();
         }
-        elementsStore[originalSize++] = obj;
+        elementsStore[originalSize++] = element;
     }
      
-    public Object removeElement(int index){
+    public E removeElement(int index){
         if(index < originalSize){
-            Object obj = elementsStore[index];
+            E element = elementsStore[index];
             elementsStore[index] = null;
-            int tmp = index;
-            while(tmp < originalSize){
-                elementsStore[tmp] = elementsStore[tmp+1];
-                elementsStore[tmp+1] = null;
-                tmp++;
+            int indexValue = index;
+            while(indexValue < originalSize){
+                elementsStore[indexValue] = elementsStore[indexValue+1];
+                elementsStore[indexValue+1] = null;
+                indexValue++;
             }
             originalSize--;
-            return obj;
+            return element;
         } else {
             throw new ArrayListException("Element is not removed");
         }
@@ -56,13 +55,17 @@ public class ArrayList implements ArrayListOperations {
      
     public void increaseListSize(){
         elementsStore = Arrays.copyOf(elementsStore, elementsStore.length*2);
-        logger.log(Level.INFO, "New length is: "+elementsStore.length);
+       
     }
   
-    public void displayArrayList() {
-    	for(Object each: elementsStore) {
-    	    logger.log(Level.INFO, "Elements are : "+each);
-    	    
-    	}
+    public String toString() {
+    	
+    	
+    	StringBuilder builder = new StringBuilder();
+    	  for (int i = 0; i < elementsStore.length; ++i) {
+    	    builder.append(elementsStore[i]);
+    	  }
+    	  return builder.toString();
+    	
     }
 }
